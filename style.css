@@ -1,0 +1,87 @@
+body {
+    font-family: 'Montserrat', sans-serif;
+    background-color: rgba(0, 0, 0, 0);
+    color: #f3f4f6;
+    overflow-x: hidden;
+    margin: 0;
+    padding: 0;
+}
+
+.glass-card-neon {
+    background: transparent !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    border: 2px solid rgba(255, 215, 0, 0.65);
+    box-shadow:
+        0 0 25px rgba(255, 215, 0, 0.25),
+        0 25px 60px -15px rgba(0, 0, 0, 0.7);
+}
+
+#sky-canvas {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 100;
+    pointer-events: none;
+}
+
+header,
+main,
+footer {
+    position: relative;
+    z-index: 20;
+}
+
+main .glass-card-neon {
+    background: transparent !important;
+}
+
+canvas {
+    mix-blend-mode: screen;
+}
+
+.botanical-corner {
+    position: absolute;
+    pointer-events: none;
+    filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.6));
+    z-index: 10;
+}
+
+.sunflower-glow {
+    filter: drop-shadow(0 0 30px rgba(255, 215, 0, 0.75));
+    animation: floatSunflower 6s ease-in-out infinite;
+}
+
+@keyframes floatSunflower {
+    0%, 100% {
+        transform: translateY(0px) rotate(0deg) scale(1);
+    }
+    50% {
+        transform: translateY(-10px) rotate(3deg) scale(1.02);
+    }
+}
+
+.btn-gold-luxury {
+    background: linear-gradient(135deg, #fbbf24 0%, #d97706 50%, #b45309 100%);
+    box-shadow: 0 0 25px rgba(251, 191, 36, 0.6);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-gold-luxury:hover {
+    box-shadow: 0 0 35px rgba(251, 191, 36, 0.9);
+    transform: translateY(-2px);
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #010206;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #b45309;
+    border-radius: 4px;
+}

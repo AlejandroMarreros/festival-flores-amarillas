@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para el Amor de Mi Vida • Festival Estelar</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Tone.js para la música y efectos de audio -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
+
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600&family=Alex+Brush&display=swap"
+        rel="stylesheet">
+
+    <!-- Tu archivo de estilos separado -->
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="Loader/Loader.css">
+</head>
+
+<body class="min-h-screen flex flex-col justify-between relative selection:bg-amber-500 selection:text-black">
+    <!-- Pantalla de Carga -->
+    <div id="loader-screen"
+        class="fixed inset-0 z-50 flex items-center justify-center bg-gray-950 transition-opacity duration-700">
+        <div class="loader-content">
+            <!-- Aquí va el contenido o estructura que tengas dentro de tu Loader.jsx -->
+            <div class="animate-spin rounded-full h-16 w-16 border-t-4 border-amber-400"></div>
+        </div>
+    </div>
+    <canvas id="sky-canvas"></canvas>
+
+    <!-- Música de fondo -->
+    <audio id="background-music" loop preload="auto">
+        <source src="audio/sonido_fondo.mp3" type="audio/mpeg">
+    </audio>
+    <!-- Header Navigation -->
+    <header class="relative z-30 w-full px-6 py-6 flex justify-between items-center max-w-7xl mx-auto">
+        <div
+            class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-black/50 border border-amber-500/40 backdrop-blur-md">
+            <span class="w-2 h-2 rounded-full bg-amber-400 animate-ping"></span>
+            <span class="text-xs uppercase tracking-widest text-amber-300 font-semibold font-playfair">Festival de
+                Flores Amarillas • Bosque Estelar</span>
+        </div>
+
+        <button id="sound-btn" onclick="toggleAudio()"
+            class="group flex items-center gap-2 px-4 py-2 rounded-full glass-card-neon hover:border-amber-300 transition-all duration-300">
+            <svg id="sound-icon" class="w-5 h-5 text-amber-400 group-hover:scale-110 transition-transform" fill="none"
+                stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z">
+                </path>
+            </svg>
+            <span id="sound-text" class="text-xs font-medium text-amber-200">Música Mágica: OFF</span>
+        </button>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="relative z-20 flex-grow flex flex-col items-center justify-center px-4 py-8 max-w-6xl mx-auto w-full">
+
+        <div class="text-center mb-10 space-y-3">
+            <h1
+                class="font-playfair text-4xl sm:text-6xl lg:text-7xl font-bold tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-yellow-400 to-amber-500 drop-shadow-[0_10px_25px_rgba(255,215,0,0.5)]">
+                Gracias por ser parte de mi vida
+            </h1>
+
+            <p
+                class="text-amber-100/80 text-sm sm:text-lg font-light tracking-wide max-w-xl mx-auto font-playfair italic">
+                Dios escucho las noches que le pedia que envie a un angel y llegaste tu a mi vida.
+            </p>
+        </div>
+
+        <div
+            class="glass-card-neon rounded-3xl p-6 sm:p-12 w-full max-w-4xl grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative overflow-hidden">
+
+            <!-- Esquinas Botánicas (SVG) -->
+            <svg class="botanical-corner top-3 left-3 w-16 h-16 sm:w-22 sm:h-22 text-amber-400 opacity-90"
+                viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M10 10 C30 15, 60 10, 90 40 C70 45, 45 40, 10 10 Z" fill="url(#leafGrad)" />
+                <path d="M10 10 C15 30, 10 60, 40 90 C45 70, 40 45, 10 10 Z" fill="url(#leafGrad)" />
+                <circle cx="28" cy="28" r="14" fill="#fbbf24" stroke="#d97706" stroke-width="2" />
+                <circle cx="28" cy="28" r="6" fill="#451a03" />
+            </svg>
+
+            <svg class="botanical-corner top-3 right-3 w-16 h-16 sm:w-22 sm:h-22 text-amber-400 opacity-90 rotate-90"
+                viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M10 10 C30 15, 60 10, 90 40 C70 45, 45 40, 10 10 Z" fill="url(#leafGrad)" />
+                <circle cx="28" cy="28" r="14" fill="#fbbf24" stroke="#d97706" stroke-width="2" />
+                <circle cx="28" cy="28" r="6" fill="#451a03" />
+            </svg>
+
+            <svg class="botanical-corner bottom-3 left-3 w-16 h-16 sm:w-22 sm:h-22 text-amber-400 opacity-90 -rotate-90"
+                viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M10 10 C30 15, 60 10, 90 40 C70 45, 45 40, 10 10 Z" fill="url(#leafGrad)" />
+                <circle cx="28" cy="28" r="14" fill="#fbbf24" stroke="#d97706" stroke-width="2" />
+                <circle cx="28" cy="28" r="6" fill="#451a03" />
+            </svg>
+
+            <svg class="botanical-corner bottom-3 right-3 w-16 h-16 sm:w-22 sm:h-22 text-amber-400 opacity-90 rotate-180"
+                viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M10 10 C30 15, 60 10, 90 40 C70 45, 45 40, 10 10 Z" fill="url(#leafGrad)" />
+                <circle cx="28" cy="28" r="14" fill="#fbbf24" stroke="#d97706" stroke-width="2" />
+                <circle cx="28" cy="28" r="6" fill="#451a03" />
+            </svg>
+
+            <defs>
+                <linearGradient id="leafGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#fef08a" />
+                    <stop offset="100%" stop-color="#ca8a04" />
+                </linearGradient>
+            </defs>
+
+            <div class="absolute -top-24 -left-24 w-72 h-72 bg-amber-500/15 rounded-full blur-3xl pointer-events-none">
+            </div>
+
+            <div
+                class="absolute -bottom-24 -right-24 w-72 h-72 bg-yellow-500/15 rounded-full blur-3xl pointer-events-none">
+            </div>
+
+            <!-- Girasol Interactivo -->
+            <div class="lg:col-span-5 flex flex-col items-center justify-center relative z-20">
+                <div class="relative cursor-pointer group flex items-center justify-center"
+                    onclick="triggerGrandFireworks(event)">
+
+                    <div
+                        class="absolute inset-0 rounded-full border border-amber-400/40 animate-[spin_25s_linear_infinite] scale-125 pointer-events-none">
+                    </div>
+
+                    <svg class="w-48 h-48 sm:w-60 sm:h-60 sunflower-glow transition-transform duration-500 group-hover:scale-105"
+                        viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+
+                        <g class="transition-transform duration-700 group-hover:rotate-45 origin-center">
+                            <path d="M100 10 C110 35, 115 65, 100 90 C85 65, 90 35, 100 10 Z" fill="url(#goldGrad)" />
+                            <path d="M100 190 C110 165, 115 135, 100 110 C85 135, 90 165, 100 190 Z"
+                                fill="url(#goldGrad)" />
+                            <path d="M10 100 C35 110, 65 115, 90 100 C65 85, 35 90, 10 100 Z" fill="url(#goldGrad)" />
+                            <path d="M190 100 C165 110, 135 115, 110 100 C135 85, 165 90, 190 100 Z"
+                                fill="url(#goldGrad)" />
+                        </g>
+
+                        <g class="transition-transform duration-700 group-hover:-rotate-45 origin-center">
+                            <path d="M36 36 C57 53, 78 78, 93 93 C78 78, 53 57, 36 36 Z" fill="url(#goldGradLight)" />
+                            <path d="M164 164 C143 147, 122 122, 107 107 C122 122, 147 143, 164 164 Z"
+                                fill="url(#goldGradLight)" />
+                            <path d="M164 36 C143 57, 122 78, 107 93 C122 78, 143 57, 164 36 Z"
+                                fill="url(#goldGradLight)" />
+                            <path d="M36 164 C57 143, 78 122, 93 107 C78 122, 57 143, 36 164 Z"
+                                fill="url(#goldGradLight)" />
+                        </g>
+
+                        <g>
+                            <path d="M50 68 C68 80, 85 95, 96 104 C85 90, 70 75, 50 68 Z" fill="url(#goldGrad)" />
+                            <path d="M150 132 C132 120, 115 105, 104 96 C115 110, 130 125, 150 132 Z"
+                                fill="url(#goldGrad)" />
+                            <path d="M132 50 C120 68, 105 85, 96 96 C110 85, 125 70, 132 50 Z" fill="url(#goldGrad)" />
+                            <path d="M68 150 C80 132, 95 115, 104 104 C90 115, 75 130, 68 150 Z"
+                                fill="url(#goldGrad)" />
+                        </g>
+
+                        <circle cx="100" cy="100" r="34" fill="url(#centerGrad)" stroke="#78350f" stroke-width="2" />
+                        <circle cx="100" cy="100" r="28" fill="#451a03" />
+
+                        <g transform="translate(100, 100)">
+                            <path
+                                d="M0 11 C-4.5 6, -11 1, -11 -5.5 C-11 -11, -6.5 -15.5, 0 -10 C6.5 -15.5, 11 -11, 11 -5.5 C11 1, 4.5 6, 0 11 Z"
+                                fill="#fbbf24" filter="drop-shadow(0 0 8px #f59e0b)" />
+                        </g>
+
+                        <defs>
+                            <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#fffbeb" />
+                                <stop offset="40%" stop-color="#fbbd23" />
+                                <stop offset="100%" stop-color="#b45309" />
+                            </linearGradient>
+
+                            <linearGradient id="goldGradLight" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#fef3c7" />
+                                <stop offset="50%" stop-color="#f59e0b" />
+                                <stop offset="100%" stop-color="#92400e" />
+                            </linearGradient>
+
+                            <radialGradient id="centerGrad" cx="50%" cy="50%" r="50%">
+                                <stop offset="0%" stop-color="#78350f" />
+                                <stop offset="100%" stop-color="#291102" />
+                            </radialGradient>
+                        </defs>
+                    </svg>
+                </div>
+
+                <div
+                    class="mt-4 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/20 border border-amber-500/40 text-amber-300 text-xs">
+
+                    <svg class="w-3.5 h-3.5 animate-bounce" fill="currentColor" viewBox="0 0 24 24">
+                        <path
+                            d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                    </svg>
+
+                    <span>Toca el girasol para lanzar fuegos artificiales</span>
+                </div>
+            </div>
+
+            <!-- Textos y Capítulos -->
+            <div class="lg:col-span-7 flex flex-col justify-between space-y-6 z-20">
+
+                <div class="flex justify-between items-center border-b border-amber-500/30 pb-4">
+                    <span id="verse-counter"
+                        class="text-xs uppercase tracking-widest font-playfair text-amber-400 font-bold">
+                        Capítulo 1 de 8
+                    </span>
+
+                    <div id="progress-dots" class="flex gap-1.5"></div>
+                </div>
+
+                <div class="space-y-3 min-h-[150px] flex flex-col justify-center">
+                    <h2 id="verse-title"
+                        class="font-playfair text-2xl sm:text-3xl text-amber-100 font-bold tracking-wide">
+                        En este bosque bajo las estrellas...
+                    </h2>
+
+                    <p id="verse-text" class="text-amber-100/90 text-base sm:text-lg leading-relaxed font-light">
+                        Eres la luz dorada que ilumina cada rincón de mi mundo con una ternura infinita y un amor
+                        que desafía al tiempo.
+                    </p>
+                </div>
+
+                <div class="pt-2 flex flex-col sm:flex-row items-center gap-4">
+
+                    <button onclick="nextVerse()"
+                        class="btn-gold-luxury w-full sm:w-auto px-8 py-3.5 rounded-xl font-playfair font-bold text-gray-950 tracking-wider flex items-center justify-center gap-3 group">
+
+                        <span id="btn-label">Siguiente Capítulo</span>
+
+                        <svg class="w-5 h-5 transition-transform group-hover:translate-x-1" fill="none"
+                            stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                                d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                        </svg>
+                    </button>
+
+                    <button onclick="prevVerse()"
+                        class="w-full sm:w-auto px-5 py-3 rounded-xl border border-amber-500/40 text-amber-300 hover:bg-amber-500/15 font-playfair text-sm transition-all">
+                        Anterior
+                    </button>
+
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="relative z-20 py-6 text-center text-xs text-amber-200/60 font-playfair tracking-widest">
+        CAPIBARA-CODEX
+
+        <img src="./iimg/CAPIBARA.png" alt="Capibara" class="inline-block w-8 h-8 object-contain align-middle mx-1">
+
+        [ ING.ALEJANDRO MARREROS ] <br>• El Bosque Estelar; Creado con amor eterno
+    </footer>
+
+    <!-- Script JavaScript Integrado -->
+    <script>
+        // --- Verses Data ---
+        const verses = [
+            {
+                title: "En este bosque bajo las estrellas...",
+                text: "Eres la luz dorada que ilumina cada rincón de mi mundo con una ternura infinita y un amor que desafía al tiempo."
+            },
+            {
+                title: "El brillo de tu mirada...",
+                text: "Es más hermoso que todas las constelaciones juntas. Cada vez que sonríes, el universo entero se detiene a admirarte."
+            },
+            {
+                title: "Un refugio dorado...",
+                text: "A tu lado, cualquier lugar se convierte en nuestro hogar. Tus brazos son el refugio seguro donde siempre quiero habitar."
+            },
+            {
+                title: "Flores amarillas en septiembre...",
+                text: "Simbolizan la promesa de estar juntos en cada primavera y en cada invierno, floreciendo siempre con renovada pasión."
+            },
+            {
+                title: "Bajo el cielo estrellado...",
+                text: "Pedí un deseo al ver una estrella fugaz, y mi sorpresa fue descubrir que ya te tenía a ti, mi sueño hecho realidad."
+            },
+            {
+                title: "Nuestra historia sin final...",
+                text: "Cada capítulo a tu lado es una obra de arte. Gracias por escribir conmigo este cuento de hadas que no termina jamás."
+            },
+            {
+                title: "Promesa eterna...",
+                text: "Te amo en las buenas y en las auroras boreales, en los días soleados y en las noches calmadas. Eres mi para siempre."
+            },
+            {
+                title: "El Amor de Mi Vida...",
+                text: "No existen palabras suficientes para agradecer tu existencia. Eres el latido más hermoso de mi corazón y mi razón de sonreír."
+            }
+        ];
+
+        let currentIndex = 0;
+        let isAudioPlaying = false;
+        let synth, chimeSynth;
+
+        // --- Initialize Audio with Tone.js ---
+        function initAudio() {
+            if (synth) return;
+            synth = new Tone.PolySynth(Tone.Synth, {
+                oscillator: { type: "sine" },
+                envelope: { attack: 2, decay: 1, sustain: 0.8, release: 3 }
+            }).toDestination();
+            synth.volume.value = -12;
+
+            chimeSynth = new Tone.Synth({
+                oscillator: { type: "triangle" },
+                envelope: { attack: 0.05, decay: 0.3, sustain: 0, release: 0.5 }
+            }).toDestination();
+            chimeSynth.volume.value = -8;
+        }
+
+        const chordProgression = [
+            ["C4", "E4", "G4", "B4"],
+            ["A3", "C4", "E4", "G4"],
+            ["F3", "A3", "C4", "E4"],
+            ["G3", "B3", "D4", "F4"]
+        ];
+
+        let chordIndex = 0;
+        let ambientLoop;
+
+        // --- Toggle Audio (Tone.js + HTML Audio) ---
+        function toggleAudio() {
+            initAudio();
+            const btnText = document.getElementById('sound-text');
+            const soundIcon = document.getElementById('sound-icon');
+            const backgroundMusic = document.getElementById('background-music');
+
+            if (!isAudioPlaying) {
+                Tone.start();
+                isAudioPlaying = true;
+                btnText.innerText = "Música Mágica: ON";
+                soundIcon.classList.add("text-yellow-300", "animate-pulse");
+
+                if (backgroundMusic) {
+                    backgroundMusic.play().catch(error => console.log("Audio autoplay bloqueado o error:", error));
+                }
+
+                ambientLoop = new Tone.Loop(time => {
+                    synth.triggerAttackRelease(chordProgression[chordIndex], "4n", time);
+                    chordIndex = (chordIndex + 1) % chordProgression.length;
+                }, "6n").start(0);
+
+                Tone.Transport.start();
+            } else {
+                isAudioPlaying = false;
+                btnText.innerText = "Música Mágica: OFF";
+                soundIcon.classList.remove("text-yellow-300", "animate-pulse");
+
+                if (backgroundMusic) {
+                    backgroundMusic.pause();
+                }
+
+                if (ambientLoop) ambientLoop.stop();
+                Tone.Transport.stop();
+            }
+        }
+
+        // --- Render Progress Dots ---
+        function renderDots() {
+            const container = document.getElementById('progress-dots');
+            if (!container) return;
+            container.innerHTML = '';
+            verses.forEach((_, idx) => {
+                const dot = document.createElement('div');
+                dot.className = `h-1.5 rounded-full transition-all duration-300 ${idx === currentIndex ? 'w-6 bg-amber-400 shadow-[0_0_10px_#fbbf24]' : 'w-1.5 bg-amber-500/30'}`;
+                container.appendChild(dot);
+            });
+        }
+
+        // --- Update Verse ---
+        function updateVerse() {
+            const titleEl = document.getElementById('verse-title');
+            const textEl = document.getElementById('verse-text');
+            const counterEl = document.getElementById('verse-counter');
+
+            if (!titleEl || !textEl || !counterEl) return;
+
+            titleEl.style.opacity = 0;
+            textEl.style.opacity = 0;
+
+            setTimeout(() => {
+                titleEl.innerText = verses[currentIndex].title;
+                textEl.innerText = verses[currentIndex].text;
+                counterEl.innerText = `Capítulo ${currentIndex + 1} de ${verses.length}`;
+                renderDots();
+
+                titleEl.style.transition = "opacity 0.4s ease";
+                textEl.style.transition = "opacity 0.4s ease";
+                titleEl.style.opacity = 1;
+                textEl.style.opacity = 1;
+            }, 200);
+
+            if (isAudioPlaying && chimeSynth) {
+                const notes = ["C5", "E5", "G5", "B5", "C6"];
+                chimeSynth.triggerAttackRelease(notes[currentIndex % notes.length], "8n");
+            }
+        }
+
+        function nextVerse() {
+            currentIndex = (currentIndex + 1) % verses.length;
+            updateVerse();
+            launchFireworksAtRandom();
+        }
+
+        function prevVerse() {
+            currentIndex = (currentIndex - 1 + verses.length) % verses.length;
+            updateVerse();
+            launchFireworksAtRandom();
+        }
+
+        // --- Canvas for Stars and Fireworks ---
+        const canvas = document.getElementById('sky-canvas');
+        const ctx = canvas ? canvas.getContext('2d') : null;
+
+        let width, height;
+        let stars = [];
+        let shootingStars = [];
+        let particles = [];
+        let goldenPollen = [];
+        let mouse = { x: null, y: null };
+
+        window.addEventListener('mousemove', (e) => {
+            mouse.x = e.clientX;
+            mouse.y = e.clientY;
+        });
+
+        function resizeCanvas() {
+            if (!canvas) return;
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        if (canvas) {
+            for (let i = 0; i < 220; i++) {
+                stars.push({
+                    x: Math.random() * width,
+                    y: Math.random() * height,
+                    radius: Math.random() * 1.8 + 0.2,
+                    alpha: Math.random(),
+                    speed: Math.random() * 0.02 + 0.005
+                });
+            }
+
+            for (let i = 0; i < 60; i++) {
+                goldenPollen.push({
+                    x: Math.random() * width,
+                    y: Math.random() * height,
+                    radius: Math.random() * 2.5 + 1,
+                    speedY: -(Math.random() * 0.5 + 0.2),
+                    speedX: (Math.random() - 0.5) * 0.4,
+                    alpha: Math.random() * 0.8 + 0.2
+                });
+            }
+
+            setInterval(() => {
+                if (Math.random() > 0.2) {
+                    shootingStars.push({
+                        x: Math.random() * width * 0.8,
+                        y: 0,
+                        length: Math.random() * 90 + 50,
+                        speed: Math.random() * 14 + 8,
+                        angle: Math.PI / 4,
+                        alpha: 1
+                    });
+                }
+            }, 3000);
+
+            setInterval(() => {
+                if (Math.random() > 0.3) {
+                    const fx = Math.random() * width * 0.8 + width * 0.1;
+                    const fy = Math.random() * (height * 0.5);
+                    createFireworkBurst(fx, fy);
+                }
+            }, 3500);
+        }
+
+        function createFireworkBurst(x, y) {
+            const colors = ['#f59e0b', '#fbbf24', '#ef4444', '#ec4899', '#8b5cf6', '#3b82f6', '#10b981', '#ffffff'];
+            const chosenColor = colors[Math.floor(Math.random() * colors.length)];
+            const particleCount = 70;
+
+            for (let i = 0; i < particleCount; i++) {
+                const angle = Math.random() * Math.PI * 2;
+                const speed = Math.random() * 7 + 2;
+                particles.push({
+                    x: x,
+                    y: y,
+                    vx: Math.cos(angle) * speed,
+                    vy: Math.sin(angle) * speed,
+                    alpha: 1,
+                    decay: Math.random() * 0.015 + 0.008,
+                    color: chosenColor,
+                    size: Math.random() * 3.5 + 1
+                });
+            }
+        }
+
+        function triggerGrandFireworks(event) {
+            const rect = event.currentTarget.getBoundingClientRect();
+            const x = rect.left + rect.width / 2;
+            const y = rect.top + rect.height / 2;
+
+            createFireworkBurst(x, y);
+            setTimeout(() => createFireworkBurst(x - 90, y - 60), 200);
+            setTimeout(() => createFireworkBurst(x + 90, y - 60), 400);
+
+            if (isAudioPlaying && chimeSynth) {
+                chimeSynth.triggerAttackRelease("C6", "4n");
+            }
+        }
+
+        function launchFireworksAtRandom() {
+            if (!width || !height) return;
+            const x = Math.random() * (width * 0.6) + width * 0.2;
+            const y = Math.random() * (height * 0.4) + height * 0.1;
+            createFireworkBurst(x, y);
+        }
+
+        function animateSky() {
+            if (!ctx) return;
+            ctx.clearRect(0, 0, width, height);
+
+            const bgGrad = ctx.createRadialGradient(width / 2, height / 2, 50, width / 2, height / 2, Math.max(width, height));
+            bgGrad.addColorStop(0, '#070b16');
+            bgGrad.addColorStop(0.5, '#02040a');
+            bgGrad.addColorStop(1, '#000103');
+            ctx.fillStyle = bgGrad;
+            ctx.fillRect(0, 0, width, height);
+
+            stars.forEach(star => {
+                star.alpha += star.speed;
+                if (star.alpha > 1 || star.alpha < 0.2) star.speed = -star.speed;
+                ctx.beginPath();
+                ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(255, 255, 255, ${star.alpha})`;
+                ctx.fill();
+            });
+
+            goldenPollen.forEach(p => {
+                p.y += p.speedY;
+                p.x += p.speedX;
+
+                if (mouse.x && mouse.y) {
+                    let dx = mouse.x - p.x;
+                    let dy = mouse.y - p.y;
+                    let dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < 130) {
+                        p.x += dx * 0.025;
+                        p.y += dy * 0.025;
+                    }
+                }
+
+                if (p.y < 0) {
+                    p.y = height + 10;
+                    p.x = Math.random() * width;
+                }
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(255, 215, 0, ${p.alpha})`;
+                ctx.shadowBlur = 12;
+                ctx.shadowColor = '#fbbf24';
+                ctx.fill();
+                ctx.shadowBlur = 0;
+            });
+
+            shootingStars.forEach((ss, index) => {
+                ss.x += Math.cos(ss.angle) * ss.speed;
+                ss.y += Math.sin(ss.angle) * ss.speed;
+                ss.alpha -= 0.02;
+
+                const grad = ctx.createLinearGradient(
+                    ss.x, ss.y,
+                    ss.x - Math.cos(ss.angle) * ss.length,
+                    ss.y - Math.sin(ss.angle) * ss.length
+                );
+                grad.addColorStop(0, `rgba(255, 255, 255, ${ss.alpha})`);
+                grad.addColorStop(1, `rgba(255, 215, 0, 0)`);
+
+                ctx.beginPath();
+                ctx.moveTo(ss.x, ss.y);
+                ctx.lineTo(
+                    ss.x - Math.cos(ss.angle) * ss.length,
+                    ss.y - Math.sin(ss.angle) * ss.length
+                );
+                ctx.strokeStyle = grad;
+                ctx.lineWidth = 2;
+                ctx.stroke();
+
+                if (ss.alpha <= 0 || ss.y > height) {
+                    shootingStars.splice(index, 1);
+                }
+            });
+
+            particles.forEach((pt, index) => {
+                pt.x += pt.vx;
+                pt.y += pt.vy;
+                pt.vy += 0.08;
+                pt.alpha -= pt.decay;
+
+                ctx.beginPath();
+                ctx.arc(pt.x, pt.y, pt.size, 0, Math.PI * 2);
+                ctx.fillStyle = pt.color;
+                ctx.globalAlpha = Math.max(pt.alpha, 0);
+                ctx.shadowBlur = 15;
+                ctx.shadowColor = pt.color;
+                ctx.fill();
+                ctx.shadowBlur = 0;
+                ctx.globalAlpha = 1.0;
+
+                if (pt.alpha <= 0) {
+                    particles.splice(index, 1);
+                }
+            });
+
+            requestAnimationFrame(animateSky);
+        }
+
+        animateSky();
+
+        // --- Control del Loader y Carga Inicial ---
+        window.addEventListener('load', () => {
+            renderDots();
+            const loader = document.getElementById('loader-screen');
+            if (loader) {
+                loader.style.opacity = '0';
+                setTimeout(() => {
+                    loader.style.display = 'none';
+                }, 700);
+            }
+        });
+    </script>
+
+</body>
+
+</html>

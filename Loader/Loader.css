@@ -1,0 +1,217 @@
+/* ==========================================
+   CORTINA DE CARGA (LOADER) - ACERO TOTAL
+   Estética: Acero inoxidable, soldadura de arco, pizarra industrial
+   ========================================== */
+
+.loader-screen {
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(circle at center, #0f172a 0%, #090d16 60%, #020617 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 99999;
+    /* Transición de cortina elegante hacia arriba */
+    transition: transform 0.85s cubic-bezier(0.77, 0, 0.175, 1), opacity 0.65s ease-out;
+    will-change: transform, opacity;
+}
+
+/* Estado de salida: La cortina se repliega suavemente hacia arriba */
+.loader-screen.curtain-exit {
+    transform: translateY(-100%);
+    opacity: 0;
+    pointer-events: none;
+}
+
+#container {
+    width: 90%;
+    max-width: 520px;
+    min-height: 580px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.loading-title {
+    font-family: sans-serif;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 5px;
+    color: #f97316;
+    text-transform: uppercase;
+    margin-bottom: 25px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.logo-container {
+    position: relative;
+    width: 320px;
+    height: 320px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.loader-logo {
+    position: absolute;
+    width: 170px;
+    height: auto;
+    max-height: 170px;
+    object-fit: contain;
+    z-index: 100;
+    animation: pulse 2.2s ease-in-out infinite;
+    filter:
+        drop-shadow(0 0 14px rgba(249, 115, 22, 0.85))
+        drop-shadow(0 0 32px rgba(249, 115, 22, 0.45));
+}
+
+/* AROS GIRATORIOS EXISTENTES CON TONOS INDUSTRIALES Y SOLDADURA */
+.loading-circle {
+    position: absolute;
+    border-radius: 50%;
+    border-style: solid;
+    border-width: 4px;
+    border-right-color: transparent;
+    border-bottom-color: transparent;
+}
+
+/* Aro exterior: Naranja soldadura TIG/Arco */
+.sp1 {
+    width: 300px;
+    height: 300px;
+    border-top-color: #f97316;
+    border-left-color: #f97316;
+    animation: spin 3.2s linear infinite;
+    filter: drop-shadow(0 0 8px rgba(249, 115, 22, 0.6));
+}
+
+/* Aro medio: Ámbar de arco voltaico */
+.sp2 {
+    width: 260px;
+    height: 260px;
+    border-top-color: #fbbf24;
+    border-left-color: #fbbf24;
+    animation: spinReverse 2.5s linear infinite;
+    filter: drop-shadow(0 0 6px rgba(251, 191, 36, 0.5));
+}
+
+/* Aro interior: Acero inoxidable satinado */
+.sp3 {
+    width: 220px;
+    height: 220px;
+    border-top-color: #e2e8f0;
+    border-left-color: #94a3b8;
+    animation: spin 1.9s linear infinite;
+}
+
+/* Aro de fondo resplandeciente */
+.logo-container::after {
+    content: "";
+    position: absolute;
+    width: 312px;
+    height: 312px;
+    border-radius: 50%;
+    border: 3px solid;
+    border-top-color: rgba(249, 115, 22, 0.3);
+    border-left-color: rgba(249, 115, 22, 0.3);
+    border-right-color: transparent;
+    border-bottom-color: transparent;
+    animation: spinReverse 4s linear infinite;
+}
+
+/* IDENTIDAD PRINCIPAL */
+.brand-name {
+    margin-top: 24px;
+    font-family: "Poppins", sans-serif;
+    font-size: 32px;
+    font-weight: 900;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    line-height: 1;
+    color: #ffffff;
+    text-shadow: 0 0 20px rgba(249, 115, 22, 0.5);
+}
+
+/* SEGUNDA IDENTIDAD: CAPIBARA-CODEX */
+.brand-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 8px;
+    padding: 4px 14px;
+    background: rgba(15, 23, 42, 0.8);
+    border: 1px solid rgba(249, 115, 22, 0.3);
+    border-radius: 9999px;
+}
+
+.brand-secondary-text {
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 2px;
+    color: #fb923c;
+    text-transform: uppercase;
+}
+
+.brand-secondary-img {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+}
+
+/* TEXTO DE PROGRESO Y ESTADO */
+.loading-text {
+    margin-top: 18px;
+    font-family: sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    color: #cbd5e1;
+}
+
+.loading-percentage {
+    color: #f97316;
+    font-weight: 900;
+    margin-left: 6px;
+}
+
+/* BARRA DE PROGRESO INDUSTRIAL */
+.loader-bar {
+    margin-top: 16px;
+    width: 280px;
+    height: 6px;
+    background: #0f172a;
+    border-radius: 20px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.6);
+}
+
+.loader-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #ea580c, #f97316, #fbbf24, #f97316);
+    background-size: 200% 100%;
+    border-radius: 20px;
+    box-shadow: 0 0 12px rgba(249, 115, 22, 0.9);
+    transition: width 0.15s ease-out;
+}
+
+/* ANIMACIONES */
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+@keyframes spinReverse {
+    from { transform: rotate(360deg); }
+    to { transform: rotate(0deg); }
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.06); }
+    100% { transform: scale(1); }
+}
